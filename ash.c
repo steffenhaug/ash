@@ -22,7 +22,8 @@ void exec(struct command *cmd)
         exit(0);
     }
 
-    // External comand; fork and exec.
+    // External comand; fork and exec the command
+    // in child process.
     pid_t pid = fork();
 
     if (-1 == pid) {
@@ -49,7 +50,7 @@ void exec(struct command *cmd)
         // Output redirection
         if (cmd->out) {
             // 0666 = read/write for user (normal)
-            int fd = open(cmd->out, O_CREAT | O_WRONLY, 0666);
+            int fd = open(cmd->out, O_CREAT|O_WRONLY, 0666);
 
             if (-1 == fd) {
                 perror("Error (open)");

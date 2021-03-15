@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "wish.h"
+#include "ash.h"
 #include "scanner.h"
 
 void prncmd(struct command *cmd)

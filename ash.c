@@ -5,7 +5,7 @@
 #include <string.h>
 
 #include "rl/rl.h"
-#include "wish.h"
+#include "ash.h"
 #include "scanner.h"
 
 void exec(struct command *cmd)

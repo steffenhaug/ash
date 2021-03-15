@@ -1,7 +1,7 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 
-#include "wish.h"
+#include "ash.h"
 
 // Prints a graphical representation of the command.
 void prncmd(struct command *cmd);

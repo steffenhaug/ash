@@ -7,9 +7,12 @@
 
 void prncmd(struct command *cmd)
 {
-    for (int i = 0; cmd->args[i] != NULL; i++)
+    // Prints a nice display of an executable command.
+    for (int i = 0; cmd->args[i] != NULL; i++) {
         printf("%d: [%s]\n", i, cmd->args[i]);
-    printf("infile  %s\n", cmd->in ? cmd->in : "(stdin)");
+    }
+
+    printf("infile  %s\n", cmd->in  ? cmd->in  : "(stdin)");
     printf("outfile %s\n", cmd->out ? cmd->out : "(stdout)");
 }
 

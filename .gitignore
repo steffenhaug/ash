@@ -1,5 +1,8 @@
 *.out
 *.swp
 
+# just names of some files i use to test
 test.py
+test.ash
+dir.txt
 ash

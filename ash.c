@@ -41,7 +41,7 @@ void exec(struct command *cmd)
                 exit(1);
             }
 
-            if (dup2(fd, STDIN_FILENO)) {
+            if (-1 == dup2(fd, STDIN_FILENO)) {
                 perror("Error (dup2)");
                 exit(1);
             }
@@ -57,14 +57,14 @@ void exec(struct command *cmd)
                 exit(1);
             }
 
-            if (dup2(fd, STDOUT_FILENO)) {
+            if (-1 == dup2(fd, STDOUT_FILENO)) {
                 perror("Error (dup2)");
                 exit(1);
             }
         }
 
         // Execute the command.
-        execvp(cmd->prog, cmd->args); /* Only returns error*/
+        execvp(cmd->prog, cmd->args); /* Only returns error */
         perror("Error (exec)");
         exit(1);
     } else { /* Parent */
@@ -89,13 +89,43 @@ void repl()
     printf("\n(exit)\n");
 }
 
+void script(char *filename) {
+    // Open the script file.
+    FILE *fp = fopen(filename, "r");
+
+    if (!fp) {
+        perror("Error (fopen)");
+        exit(1);
+    }
+
+    int nread;
+    char *line = NULL;
+    size_t len; /* Len of buffer alloced by getline */
+
+    struct command cmd;
+
+    while (-1 != (nread = getline(&line, &len, fp))) {
+        line[nread - 1] = 0; /* Remove newline */
+
+        // Scan and execute.
+        scan(&cmd, line);
+        exec(&cmd);
+    }
+
+    fclose(fp);
+    free(line); /* ok to free NULL */
+}
+
 int main(int nargs, char **args)
 {
     if (nargs > 1) { /* Script */
+        // should check if this file exists, if not
+        // print help.
         char *filename = args[1];
-        printf("TODO: Run script %s\n", filename);
+        script(filename);
     } else { /* Interactive */
-        // Trap SIGINT.
+        // Trap SIGINT so we dont kill the shell if
+        // we hit Ctrl-C outside of the editor.
         if (SIG_ERR == signal(SIGINT, SIG_IGN)) {
             perror("Error (signal)");
             exit(1);

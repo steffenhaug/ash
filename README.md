@@ -17,6 +17,7 @@ What works:
 
 What remains:
 - Robust parser
+- String literals
 - Pipes
 - Simple autocompletion
 - Configuration and history file (XDG compliant)
